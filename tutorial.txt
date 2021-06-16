@@ -1,0 +1,108 @@
+	Começando no pygame
+
+	Básico para jogos:
+	1. Tela
+	2. Textos
+	3. Objetos
+	4. Eventos
+	5. Colisões
+	6. Sons
+
+
+########################1° TELA###################################
+	A tela se refere a criação da janela onde o jogo ocorre.
+	Em pygame ela é gerada em um loop.
+####1
+Iniciando
+exemplo para criar uma tela básica em pygame:
+
+import sys
+import pygame
+
+pygame.init()
+
+tela = pygame.display.set_mode(LARGURA, COMPRIMENTO)  # Tamanho tela
+
+while True:
+    for event in pygame.event.type()
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+
+
+###2
+Personalizar.
+Para deixar ela mais bonita pode se usar um título e uma cor para a tela.
+
+pygame.display.set_caption('Título na janela')
+*tela.fill((255, 255, 255))  #Preenche a tela com branco
+*pygame.display.flip()  # Atualizar a tela
+*dento do loop.
+
+
+###3 
+Contador
+Sem um contador, relógio, o loop vai roda o tanto que conseguir.
+relogio = pygame.time.Clock()
+
+*relogio.tick(24)   # Tanto que quadros por segundo.
+
+###############################2° Textos############################
+	Os textos são muito importante
+
+###1
+pygame.font.init()
+fonte_base = pygame.font.get_default_font()
+fonte_ga = pygame.font.SysFont(a fonte, tamanho)
+
+texto = fonte_ga.render('Ganhou, 1, (255, 255, 255)  #render joga na tela
+tela.blit(text, (posx, posy))
+
+
+###############################3° Objetos###########################
+	Não existe jogo sem nada visual
+	Primeiro a tela e depois os objetos dela
+###1
+Superfícies
+sup = pygame.Surface((200, 200))
+sup.fill((22, 22, 223))
+*tela.blit(sup, (200, 200))
+
+###2 imagens
+image = pygame.image.load('Imagem.png')
+*tela.blit(image, (220, 220))
+#2.1 imagens com bordas
+image.set_colorkey((255, 0, 0))  # A borda vermelha fica transparente
+
+image.set_alpha(128) # a imagem fica seme transparente.
+
+###3
+retângulos
+ret = pygame.Rect(10, 10, 45, 45)
+pygame.draw.rect('superfice', color, ret)
+
+###4 sprits
+
+#######################################4° Eventos ###################
+	Receber eventos para movimento
+###1 mouse
+* if event.type == pygame.MOUSEBUTTONDOWN:
+    ret = ret.move(10, 10)  # move se em 10 tanto no eixo x quanto no eixo y
+
+###2 teclas
+* if vent.type == pygame.KEYDOWN
+    ret.move_ip(posx, posy)
+
+
+###############################5° colisões##########################
+	Para detectar se dois objetos colidiram
+
+###1
+if ret.collidrect(ret2):
+
+#############################6° músicas##############################
+	Um jogo sem som é muito chato
+
+#1 Sons 
+som = pygame.mixer.Sound(nomedoarquivo)
+som.play()
