@@ -1,2 +1,2 @@
-# Jogo-Cobra
-O joguinho da cobra
+# Iule
+Um jogo de plataforma.
