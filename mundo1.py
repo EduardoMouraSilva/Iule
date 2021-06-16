@@ -38,7 +38,7 @@ iule = Personagem(image_p, 8, 2, blocks)
 sprites.add(iule)
 
 # Música
-musica = pg.mixer.Sound('sons/level_1.mp3')
+musica = pg.mixer.Sound('sound/level_1.mp3')
 musica.play(loops=-1)
 musica.set_volume(0.5)
 

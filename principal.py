@@ -38,7 +38,7 @@ temporizador = pygame.time.Clock()
 
 # Música
 pygame.mixer.init()
-abertura_m = pygame.mixer.Sound('sons/Title_Screen.mp3')
+abertura_m = pygame.mixer.Sound('sound/Title_Screen.mp3')
 abertura_m.play(loops=-1, fade_ms=4)
 
 fundo = pygame.image.load('image/BG.png')
