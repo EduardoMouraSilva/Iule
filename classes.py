@@ -23,7 +23,7 @@ class Personagem(pg.sprite.Sprite):
         img_a = pg.Surface.get_height(img)
         self.images = []
         for i in range(4, 8):
-            ims = img.subsurface((img_a*i, 0, img_a, img_a))
+            ims = img.subsurface((img_a*i, 0, img_a-2, img_a-2))
             self.images.append(ims)
 
         self.atual = 0
@@ -49,7 +49,6 @@ class Personagem(pg.sprite.Sprite):
 
         speedx = 0
 
-
         colidius = pg.sprite.spritecollide(self, self.blocks, False)
         for colidiu in colidius:
             if self.speedy > 0:
@@ -65,8 +64,6 @@ class Personagem(pg.sprite.Sprite):
             speedx = self.speedx
             self.speedx = 0
             self.speedx = speedx + speedx
-
-        print(self.speedx, self.speedy)
 
         # para x
         self.rect.x += self.speedx
@@ -105,4 +102,99 @@ class Personagem(pg.sprite.Sprite):
             self.atual = 0
 
         self.image = self.images[int(self.atual)]
+
+
+
+class InimigoE(pg.sprite.Sprite):
+    def __init__(self, image, linha, coluna, blocks):
+        pg.sprite.Sprite.__init__(self)
+        self.estado = PARADO
+
+        img = image
+        self.images = []
+        for i in range(1, 3):
+            for e in range(3):
+                imgs = img.subsurface((e * 32, i * 32), (BLOCO, BLOCO))
+                self.images.append(imgs)
+        
+        self.atual = 0
+        self.image = self.images[self.atual]
+
+        self.blocks = blocks
+
+        self.rect = self.image.get_rect()
+
+        self.rect.x = coluna * BLOCO
+        self.rect.bottom = linha * BLOCO
+
+        self.speedy = 0
+        self.speedx = 1
+
+    def update(self):
+        if self.speedy < 50:
+            self.speedy += GRAVIDADE
+
+        if self.speedy > 0:
+            self.estado = CAINDO
+        self.rect.y += self.speedy
+
+        colidius = pg.sprite.spritecollide(self, self.blocks, False)
+        for colidiu in colidius:
+            if self.speedy > 0:
+                self.rect.bottom = colidiu.rect.top
+                self.speedy = 0
+                self.estado = PARADO
+            elif self.speedy < 0:
+                self.rect.top = colidiu.rect.bottom
+                self.speedy = 0
+                self.estado = PARADO
+
+        # para x
+        self.rect.x += self.speedx
+        
+        if self.rect.left < 0:
+            self.rect.left = 0
+            self.speedx = 1
+        elif self.rect.right >= LARGURA:
+            self.rect.right = LARGURA - 1
+            self.speedx = -1
+
+        colidius = pg.sprite.spritecollide(self, self.blocks, False)
+        for colidiu in colidius:
+            if self.speedx > 0:
+                self.rect.right = colidiu.rect.left
+            elif self.speedx < 0:
+                self.rect.left = colidiu.rect.right
+
+
+        self.atual += 1
+        if self.speedx < 0:
+            if self.atual >= 3:
+                self.atual = 0
+        if self.speedx > 0:
+            if self.atual < 3 or self.atual >= 6:
+                self.atual = 3
+        if self.atual >= 6:
+            self.atual = 0
+
+        self.image = self.images[int(self.atual)]
+
+
+
+'''
+image = pg.image.load('image/tin.png')
+InimigoE(image, 0, 0, 0)
+'''
+
+
+
+
+
+
+
+
+
+
+
+
 
