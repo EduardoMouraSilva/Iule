@@ -1,8 +1,9 @@
 # Esta é a class do iule.
 
 import sys
+from random import randint
 import pygame as pg
-from classes import Personagem, Solo
+from classes import Personagem, Solo, InimigoE
 from funcoes import movimento, sprites_no_grupo
 from const import *
 from map_mundos import mundo1
@@ -31,11 +32,21 @@ for i in range(3):
 
 sprites, blocks = sprites_no_grupo(mundo, sprites, blocks, solos_img, Solo)
 
+# Inimigo
+image = pg.image.load('image/tin.png')
+for i in range(100):
+    a = randint(1, 10)
+    b = randint(1, 10)
+    inimigo = InimigoE(image, a, b, blocks)
+    sprites.add(inimigo)
+
+
 # Colocar o Iule na tela, instanciando ele.
 image_p = pg.image.load('image/iule_8x1_32x32.png')
 
 iule = Personagem(image_p, 8, 2, blocks)
 sprites.add(iule)
+
 
 # Música
 musica = pg.mixer.Sound('sound/level_1.mp3')
@@ -43,6 +54,7 @@ musica.play(loops=-1)
 musica.set_volume(0.5)
 
 fundo = pg.image.load('image/BG.png')
+
 
 while True:
     contador.tick(10)
