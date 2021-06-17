@@ -3,7 +3,7 @@
 import sys
 from random import randint
 import pygame as pg
-from classes import Personagem, Solo, InimigoE
+from classes import Personagem, Solo, InimigoE, Fireball
 from funcoes import movimento, sprites_no_grupo
 from const import *
 from map_mundos import mundo1
@@ -22,6 +22,7 @@ contador = pg.time.Clock()
 # O superficie
 sprites = pg.sprite.Group()
 blocks = pg.sprite.Group()
+bolas = pg.sprite.Group()
 
 solo_img = pg.image.load('image/blocks_prev.png').convert_alpha()
 
@@ -34,7 +35,7 @@ sprites, blocks = sprites_no_grupo(mundo, sprites, blocks, solos_img, Solo)
 
 # Inimigo
 image = pg.image.load('image/tin.png')
-for i in range(100):
+for i in range(5):
     a = randint(1, 10)
     b = randint(1, 10)
     inimigo = InimigoE(image, a, b, blocks)
@@ -47,6 +48,10 @@ image_p = pg.image.load('image/iule_8x1_32x32.png')
 iule = Personagem(image_p, 8, 2, blocks)
 sprites.add(iule)
 
+# Bola de fogo
+image_bola = pg.image.load('image/fireball.bmp')
+image_bola.set_alpha(None)
+image_bola.set_colorkey((0, 0, 0))
 
 # Música
 musica = pg.mixer.Sound('sound/level_1.mp3')
@@ -65,6 +70,13 @@ while True:
             sys.exit()
 
         movimento(event, iule)
+
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_a:
+                bola = Fireball(image_bola, iule.rect.x,
+                                iule.rect.bottom, iule.rumo)
+                sprites.add(bola)
+                bolas.add(bola)
 
     if pg.key.get_pressed()[pg.K_LEFT] or pg.key.get_pressed()[pg.K_RIGHT]:
         if pg.key.get_pressed()[pg.K_LEFT]:
