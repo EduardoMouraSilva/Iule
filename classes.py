@@ -14,8 +14,49 @@ class Solo(pg.sprite.Sprite):
 
 
 
+class Fireball(pg.sprite.Sprite):
+    def __init__(self, image, rect_x, rect_bottom, speedx):
+        pg.sprite.Sprite.__init__(self)
+
+        imgs = image
+        self.images = []
+        for i in range(5):
+            img = imgs.subsurface((0, 12*i, 7, 12))
+            self.images.append(img)
+        self.atual = 0
+        self.image = self.images[self.atual]
+
+        self.rect = self.image.get_rect()
+
+        self.direcao(rect_x, rect_bottom, speedx)
+
+    def update(self):
+        self.rect.x += self.speedx
+
+        self.atual += 0.25
+        if self.atual > 4:
+            self.atual = 1
+        self.image = self.images[int(self.atual)]
+
+        if self.speedx > 0 and self.rect.x > LARGURA:
+            pg.sprite.Sprite.kill(self)
+        elif self.speedx < 0 and self.rect.x < 0:
+            pg.sprite.Sprite.kill(self)
+
+    def direcao(self, rect_x, rect_bottom, rumo):
+
+        if rumo < 0:
+            self.speedx = -20
+        else:
+            self.speedx = 20
+
+        self.rect.x = rect_x
+        self.rect.bottom = rect_bottom -5
+
+
+
 class Personagem(pg.sprite.Sprite):
-    def __init__(self, image, linha, coluna, blocks):
+    def __init__(self, image, linha, coluna, blocks, ):
         pg.sprite.Sprite.__init__(self)
         self.estado = PARADO
 
@@ -26,7 +67,7 @@ class Personagem(pg.sprite.Sprite):
             ims = img.subsurface((img_a*i, 0, img_a-2, img_a-2))
             self.images.append(ims)
 
-        self.atual = 0
+        self.atual = 2
         self.image = self.images[self.atual]
             
         self.rect = self.image.get_rect()
@@ -39,9 +80,17 @@ class Personagem(pg.sprite.Sprite):
         self.speedx = 0
         self.speedy = 0
 
+        self.rumo = 1
+
     def update(self):
         if self.speedy < 50:
             self.speedy += GRAVIDADE
+
+        if self.speedx != 0:
+            if self.speedx > 0:
+                self.rumo = 1
+            else:
+                self.rumo = -1
 
         if self.speedy > 0:
             self.estado = CAINDO
@@ -82,6 +131,7 @@ class Personagem(pg.sprite.Sprite):
 
         if speedx:
             self.speedx = speedx
+        
 
     def pulo(self):
         if self.estado == PARADO:
@@ -178,23 +228,3 @@ class InimigoE(pg.sprite.Sprite):
             self.atual = 0
 
         self.image = self.images[int(self.atual)]
-
-
-
-'''
-image = pg.image.load('image/tin.png')
-InimigoE(image, 0, 0, 0)
-'''
-
-
-
-
-
-
-
-
-
-
-
-
-
