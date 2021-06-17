@@ -50,8 +50,6 @@ sprites.add(iule)
 
 # Bola de fogo
 image_bola = pg.image.load('image/fireball.bmp')
-image_bola.set_alpha(None)
-image_bola.set_colorkey((0, 0, 0))
 
 # Música
 musica = pg.mixer.Sound('sound/level_1.mp3')
@@ -59,7 +57,6 @@ musica.play(loops=-1)
 musica.set_volume(0.5)
 
 fundo = pg.image.load('image/BG.png')
-
 
 while True:
     contador.tick(10)
@@ -73,10 +70,7 @@ while True:
 
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_a:
-                bola = Fireball(image_bola, iule.rect.x,
-                                iule.rect.bottom, iule.rumo)
-                sprites.add(bola)
-                bolas.add(bola)
+                iule.bolafogo(image_bola, pg.K_a, sprites)
 
     if pg.key.get_pressed()[pg.K_LEFT] or pg.key.get_pressed()[pg.K_RIGHT]:
         if pg.key.get_pressed()[pg.K_LEFT]:

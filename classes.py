@@ -15,20 +15,23 @@ class Solo(pg.sprite.Sprite):
 
 
 class Fireball(pg.sprite.Sprite):
-    def __init__(self, image, rect_x, rect_bottom, speedx):
+    def __init__(self, image, rect_x, rect_bottom, rumo):
         pg.sprite.Sprite.__init__(self)
 
         imgs = image
         self.images = []
         for i in range(5):
             img = imgs.subsurface((0, 12*i, 7, 12))
+            if rumo < 0:
+                img = pg.transform.rotate(img, -180)
+            img.set_colorkey((0, 0, 0))
             self.images.append(img)
         self.atual = 0
         self.image = self.images[self.atual]
 
         self.rect = self.image.get_rect()
 
-        self.direcao(rect_x, rect_bottom, speedx)
+        self.direcao(rect_x, rect_bottom, rumo)
 
     def update(self):
         self.rect.x += self.speedx
@@ -81,6 +84,7 @@ class Personagem(pg.sprite.Sprite):
         self.speedy = 0
 
         self.rumo = 1
+        self.lancou = 0
 
     def update(self):
         if self.speedy < 50:
@@ -91,7 +95,7 @@ class Personagem(pg.sprite.Sprite):
                 self.rumo = 1
             else:
                 self.rumo = -1
-
+    
         if self.speedy > 0:
             self.estado = CAINDO
         self.rect.y += self.speedy
@@ -131,7 +135,15 @@ class Personagem(pg.sprite.Sprite):
 
         if speedx:
             self.speedx = speedx
+        print(self.speedx, self.lancou, 'entrou')
+        if self.lancou:
+            if self.lancou < 0:
+                self.speedx += SPEED_X
+            else:
+                self.speedx -= SPEED_X
+            self.lancou = 0
         
+        print(self.speedx, self.lancou, 'saiu')
 
     def pulo(self):
         if self.estado == PARADO:
@@ -152,6 +164,29 @@ class Personagem(pg.sprite.Sprite):
             self.atual = 0
 
         self.image = self.images[int(self.atual)]
+
+    def bolafogo(self, image_bola, tecla, bolas):
+        if self.rumo > 0:
+            pos = self.rect.x
+            self.atual = 2
+        else:
+            pos = self.rect.right -5
+            self.atual = 0
+
+        if self.speedx != 0:
+            if self.speedx > 0:
+                self.speedx -= SPEED_X
+                self.lancou = -1
+            else:
+                self.speedx += SPEED_X
+                self.lancou = 1
+
+        if tecla == pg.K_a:
+            bola = Fireball(image_bola, pos,
+                            self.rect.bottom, self.rumo)
+        bolas.add(bola)
+        self.image = self.images[self.atual]
+            
 
 
 
