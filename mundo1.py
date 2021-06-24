@@ -14,49 +14,39 @@ pg.init()
 # Configurações da tela.
 tela = pg.display.set_mode((LARGURA, ALTURA))
 pg.display.set_caption('Iule')
-image_iule = pg.image.load('image/iule.png')
 pg.display.set_icon(image_iule)
 
 contador = pg.time.Clock()
 
-# O superficie
+# Colocando os sprites nos groups
 sprites = pg.sprite.Group()
 blocks = pg.sprite.Group()
 bolas = pg.sprite.Group()
+inimigos = pg.sprite.Group()
 
-solo_img = pg.image.load('image/blocks_prev.png').convert_alpha()
+sprites, blocks = sprites_no_grupo(mundo, sprites, blocks, solo_img, Solo)
 
-solos_img = []
-for i in range(3):
-    solo = solo_img.subsurface(32*i, 0, 32, 32)
-    solos_img.append(solo)
-
-sprites, blocks = sprites_no_grupo(mundo, sprites, blocks, solos_img, Solo)
-
-# Inimigo
-image = pg.image.load('image/tin.png')
 for i in range(5):
     a = randint(1, 10)
     b = randint(1, 10)
-    inimigo = InimigoE(image, a, b, blocks)
+    inimigo = InimigoE(image_inimigo, a, b, blocks, bolas)
     sprites.add(inimigo)
+    inimigos.add(inimigo)
 
-
-# Colocar o Iule na tela, instanciando ele.
-image_p = pg.image.load('image/iule_8x1_32x32.png')
-
-iule = Personagem(image_p, 8, 2, blocks)
+iule = Personagem(image_personagem, 8, 2, blocks, inimigos)
 sprites.add(iule)
-
-# Bola de fogo
-image_bola = pg.image.load('image/fireball.bmp')
 
 # Música
 musica = pg.mixer.Sound('sound/level_1.mp3')
 musica.play(loops=-1)
 musica.set_volume(0.5)
 
-fundo = pg.image.load('image/BG.png')
+# Textos
+pg.font.init()
+vid = pg.font.SysFont(font1, 20)
+vida = vid.render('VIDAS: 3', 1, PRETO)
+
+vidas = 3
 
 while True:
     contador.tick(10)
@@ -65,12 +55,13 @@ while True:
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
+            
 
         movimento(event, iule)
 
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_a:
-                iule.bolafogo(image_bola, pg.K_a, sprites)
+                iule.bolafogo(image_bola, pg.K_a, sprites, bolas)
 
     if pg.key.get_pressed()[pg.K_LEFT] or pg.key.get_pressed()[pg.K_RIGHT]:
         if pg.key.get_pressed()[pg.K_LEFT]:
@@ -81,8 +72,13 @@ while True:
             continue
         iule.sprites_jogo(tecla)
 
+    if vidas != iule.vida:
+        vida = iule.vidas(iule.vida)
+        vidas = iule.vida
+
     sprites.update()
     tela.blit(fundo, (0, 0))
+    tela.blit(vida, (LARGURA-130, 10))
     sprites.draw(tela)
 
     pg.display.flip()

@@ -21,10 +21,16 @@ def movimento(event, iule):
 
 
 
-def sprites_no_grupo(mundo, sprites, blocks, solos_img, Solo):
+def sprites_no_grupo(mundo, sprites, blocks, solo_img, Solo):
     mundo = mundo
     sprites = sprites
     blocks = blocks
+
+    solos_img = []
+    for i in range(3):
+        solo = solo_img.subsurface(32*i, 0, 32, 32)
+        solos_img.append(solo)
+            
     for l, linhas in enumerate(mundo):
         cont = 0
         for c, linha in enumerate(linhas):

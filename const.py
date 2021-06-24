@@ -1,5 +1,7 @@
 # Arquivo de constates
 
+import pygame as pg
+pg.init()
 # Tela
 ALTURA = 640
 LARGURA = 992
@@ -14,6 +16,10 @@ AZUL_CELES = (25, 230, 255)
 font1 = 'verdana'
 font2 = 'Times New Roma'
 
+pg.font.init()
+vid = pg.font.SysFont(font1, 20)
+vida = vid.render('VIDAS: 3', 1, PRETO)
+
 # # # #
 GRAVIDADE = 5
 PULO_SIZE = 30
@@ -25,3 +31,12 @@ BLOCO = 32
 PARADO = 0
 PULANDO = 1
 CAINDO = 2
+
+# Imagens
+image_iule = pg.image.load('image/iule.png')
+solo_img = pg.image.load('image/blocks_prev.png')
+image_personagem = pg.image.load('image/iule_8x1_32x32.png')
+image_bola = pg.image.load('image/fireball.bmp')
+image_inimigo = pg.image.load('image/tin.png')
+fundo = pg.image.load('image/BG.png')
+

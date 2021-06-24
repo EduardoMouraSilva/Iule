@@ -59,7 +59,7 @@ class Fireball(pg.sprite.Sprite):
 
 
 class Personagem(pg.sprite.Sprite):
-    def __init__(self, image, linha, coluna, blocks, ):
+    def __init__(self, image, linha, coluna, blocks, inimigos):
         pg.sprite.Sprite.__init__(self)
         self.estado = PARADO
 
@@ -76,6 +76,7 @@ class Personagem(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.blocks = blocks
+        self.inimigos = inimigos
 
         self.rect.x = coluna * BLOCO
         self.rect.bottom = linha * BLOCO
@@ -86,7 +87,16 @@ class Personagem(pg.sprite.Sprite):
         self.rumo = 1
         self.lancou = 0
 
+        self.vida = 3
+        self.vidas_text = ['VIDAS: 0', 'VIDAS: 1', 'VIDAS: 2'] 
+
     def update(self):
+
+        colidiu_ini = pg.sprite.spritecollide(self, self.inimigos, False)
+        for coli_ini in colidiu_ini:
+            self.vida -= 1
+            pg.sprite.Sprite.kill(coli_ini)
+        
         if self.speedy < 50:
             self.speedy += GRAVIDADE
 
@@ -135,15 +145,12 @@ class Personagem(pg.sprite.Sprite):
 
         if speedx:
             self.speedx = speedx
-        print(self.speedx, self.lancou, 'entrou')
         if self.lancou:
             if self.lancou < 0:
                 self.speedx += SPEED_X
             else:
                 self.speedx -= SPEED_X
             self.lancou = 0
-        
-        print(self.speedx, self.lancou, 'saiu')
 
     def pulo(self):
         if self.estado == PARADO:
@@ -165,7 +172,7 @@ class Personagem(pg.sprite.Sprite):
 
         self.image = self.images[int(self.atual)]
 
-    def bolafogo(self, image_bola, tecla, bolas):
+    def bolafogo(self, image_bola, tecla, sprites, bolas):
         if self.rumo > 0:
             pos = self.rect.x
             self.atual = 2
@@ -184,14 +191,21 @@ class Personagem(pg.sprite.Sprite):
         if tecla == pg.K_a:
             bola = Fireball(image_bola, pos,
                             self.rect.bottom, self.rumo)
+        sprites.add(bola)
         bolas.add(bola)
         self.image = self.images[self.atual]
-            
+
+    def vidas(self, vidas):
+        vida = vid.render(self.vidas_text[self.vida], 1, PRETO)
+        print(self.vida)
+
+        return vida
+
 
 
 
 class InimigoE(pg.sprite.Sprite):
-    def __init__(self, image, linha, coluna, blocks):
+    def __init__(self, image, linha, coluna, blocks, bolas):
         pg.sprite.Sprite.__init__(self)
         self.estado = PARADO
 
@@ -206,6 +220,7 @@ class InimigoE(pg.sprite.Sprite):
         self.image = self.images[self.atual]
 
         self.blocks = blocks
+        self.bolas = bolas
 
         self.rect = self.image.get_rect()
 
@@ -251,6 +266,11 @@ class InimigoE(pg.sprite.Sprite):
             elif self.speedx < 0:
                 self.rect.left = colidiu.rect.right
 
+
+        colidius_b = pg.sprite.spritecollide(self, self.bolas, False)
+        for coli_b in colidius_b:
+            pg.sprite.Sprite.kill(self)
+            pg.sprite.Sprite.kill(coli_b)
 
         self.atual += 1
         if self.speedx < 0:
