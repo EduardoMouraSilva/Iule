@@ -15,7 +15,6 @@ pg.init()
 tela = pg.display.set_mode((LARGURA, ALTURA))
 pg.display.set_caption('Iule')
 pg.display.set_icon(image_iule)
-
 contador = pg.time.Clock()
 
 # Colocando os sprites nos groups
