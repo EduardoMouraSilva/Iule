@@ -156,6 +156,8 @@ class Personagem(pg.sprite.Sprite):
         if self.estado == PARADO:
             self.speedy -= PULO_SIZE
             self.estado = PULANDO
+        pulo_som.play()
+        
             
     def sprites_jogo(self, tecla):
         if tecla != pg.K_LEFT and tecla != pg.K_RIGHT:
@@ -194,6 +196,7 @@ class Personagem(pg.sprite.Sprite):
         sprites.add(bola)
         bolas.add(bola)
         self.image = self.images[self.atual]
+        musica_fogo.play()
 
     def vidas(self, vidas):
         vida = vid.render(self.vidas_text[self.vida], 1, PRETO)
@@ -271,6 +274,8 @@ class InimigoE(pg.sprite.Sprite):
         for coli_b in colidius_b:
             pg.sprite.Sprite.kill(self)
             pg.sprite.Sprite.kill(coli_b)
+            musica_fogo.stop()
+            monstro_morre.play()
 
         self.atual += 1
         if self.speedx < 0:

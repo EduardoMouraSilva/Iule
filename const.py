@@ -2,6 +2,7 @@
 
 import pygame as pg
 pg.init()
+
 # Tela
 ALTURA = 640
 LARGURA = 992
@@ -39,4 +40,9 @@ image_personagem = pg.image.load('image/iule_8x1_32x32.png')
 image_bola = pg.image.load('image/fireball.bmp')
 image_inimigo = pg.image.load('image/tin.png')
 fundo = pg.image.load('image/BG.png')
+
+# Sons
+musica_fogo = pg.mixer.Sound('sound/foom_0.mp3')
+monstro_morre = pg.mixer.Sound('sound/deathd.mp3')
+pulo_som = pg.mixer.Sound('sound/jump_03.mp3')
 

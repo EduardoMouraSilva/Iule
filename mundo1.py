@@ -37,8 +37,10 @@ sprites.add(iule)
 
 # Música
 musica = pg.mixer.Sound('sound/level_1.mp3')
-musica.play(loops=-1)
+musica.play()
 musica.set_volume(0.5)
+
+musica_fogo = pg.mixer.Sound('sound/foom_0.mp3')
 
 # Textos
 pg.font.init()
@@ -56,11 +58,14 @@ while True:
             sys.exit()
             
 
+
         movimento(event, iule)
 
         if event.type == pg.KEYDOWN:
+            musica.stop()
             if event.key == pg.K_a:
                 iule.bolafogo(image_bola, pg.K_a, sprites, bolas)
+
 
     if pg.key.get_pressed()[pg.K_LEFT] or pg.key.get_pressed()[pg.K_RIGHT]:
         if pg.key.get_pressed()[pg.K_LEFT]:
