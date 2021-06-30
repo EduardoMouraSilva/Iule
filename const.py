@@ -12,6 +12,7 @@ BRANCO = (255, 255, 255)
 PRETO = (0, 0, 0)
 AZUL_M = (0, 100, 200)
 AZUL_CELES = (25, 230, 255)
+RED = (255, 0, 0)
 
 # Fontes
 font1 = 'verdana'

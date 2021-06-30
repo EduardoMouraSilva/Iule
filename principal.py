@@ -43,7 +43,9 @@ abertura_m.play(loops=-1, fade_ms=4)
 
 fundo = pygame.image.load('image/BG.png')
 
-while True:
+continuar = True
+
+while continuar:
     tela.fill(BRANCO)
     jogar.fill(AZUL_M)
     posx, posy = pygame.mouse.get_pos()
@@ -59,7 +61,9 @@ while True:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 os.startfile('mundo1.py')
                 abertura_m.stop()
+                continuar = False
                 sleep(2)
+
 
     tela.blit(fundo, (0, 0))
     
@@ -69,3 +73,5 @@ while True:
     tela.blit(jogarb, (LARGURA/2 - posx_j/4, ALTURA/2 - posy_j/5))
     
     pygame.display.flip()
+
+print('fim')

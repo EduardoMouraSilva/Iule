@@ -88,7 +88,9 @@ class Personagem(pg.sprite.Sprite):
         self.lancou = 0
 
         self.vida = 3
-        self.vidas_text = ['VIDAS: 0', 'VIDAS: 1', 'VIDAS: 2'] 
+        self.vidas_text = ['VIDAS: 0', 'VIDAS: 1', 'VIDAS: 2']
+
+        self.energia = 5
 
     def update(self):
 
@@ -175,6 +177,8 @@ class Personagem(pg.sprite.Sprite):
         self.image = self.images[int(self.atual)]
 
     def bolafogo(self, image_bola, tecla, sprites, bolas):
+        if self.energia <= 0:
+            return
         if self.rumo > 0:
             pos = self.rect.x
             self.atual = 2
@@ -197,6 +201,8 @@ class Personagem(pg.sprite.Sprite):
         bolas.add(bola)
         self.image = self.images[self.atual]
         musica_fogo.play()
+
+        self.energia -= 1
 
     def vidas(self, vidas):
         vida = vid.render(self.vidas_text[self.vida], 1, PRETO)
@@ -276,6 +282,7 @@ class InimigoE(pg.sprite.Sprite):
             pg.sprite.Sprite.kill(coli_b)
             musica_fogo.stop()
             monstro_morre.play()
+            
 
         self.atual += 1
         if self.speedx < 0:
@@ -287,4 +294,4 @@ class InimigoE(pg.sprite.Sprite):
         if self.atual >= 6:
             self.atual = 0
 
-        self.image = self.images[int(self.atual)]
+        self.image = self.images[int(self.atual)]    
