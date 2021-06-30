@@ -3,7 +3,7 @@
 import sys
 from random import randint
 import pygame as pg
-from classes import Personagem, Solo, InimigoE, Fireball
+from classes import Personagem, Solo, InimigoE, Fireball, Fruta
 from funcoes import movimento, sprites_no_grupo
 from const import *
 from map_mundos import mundo1
@@ -29,8 +29,13 @@ for i in range(6):
     a = randint(5, 18)
     b = randint(5, 30)
     inimigo = InimigoE(image_inimigo, a, b, blocks, bolas)
-    sprites.add(inimigo)
+    sprites.add(in
+                imigo)
     inimigos.add(inimigo)
+
+for i in range(3):
+    fruta = Fruta(image_fruta, 5, i, blocks)
+    sprites.add(fruta)
 iule = Personagem(image_personagem, 8, 2, blocks, inimigos)
 sprites.add(iule)
 

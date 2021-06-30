@@ -41,6 +41,7 @@ image_personagem = pg.image.load('image/iule_8x1_32x32.png')
 image_bola = pg.image.load('image/fireball.bmp')
 image_inimigo = pg.image.load('image/tin.png')
 fundo = pg.image.load('image/BG.png')
+image_fruta = pg.image.load('image/Fruit.png')
 
 # Sons
 musica_fogo = pg.mixer.Sound('sound/foom_0.mp3')

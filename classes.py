@@ -1,6 +1,8 @@
 # Class base para o personagem
+from random import randint
 import pygame as pg
 from const import *
+
 
 
 
@@ -294,4 +296,59 @@ class InimigoE(pg.sprite.Sprite):
         if self.atual >= 6:
             self.atual = 0
 
-        self.image = self.images[int(self.atual)]    
+        self.image = self.images[int(self.atual)]
+
+
+
+
+class Fruta(pg.sprite.Sprite):
+    def __init__(self, image, linha, coluna, blocks):
+        pg.sprite.Sprite.__init__(self)
+        self.estado = PARADO
+        
+        img = image
+        a = randint(0, 3)
+        b = randint(0, 3)
+        self.image = img.subsurface((a *16, b*16), (16, 16))
+
+        self.rect = self.image.get_rect()
+        self.rect.x = coluna * 16
+        self.rect.bottom = linha * 16
+
+        self.blocks = blocks
+
+        self.speedy = 0
+
+    def update(self):
+        if self.speedy < 50:
+            self.speedy += GRAVIDADE
+
+        if self.speedy > 0:
+            self.estado = CAINDO
+        self.rect.y += self.speedy
+
+        colidius = pg.sprite.spritecollide(self, self.blocks, False)
+        for colidiu in colidius:
+            if self.speedy > 0:
+                self.rect.bottom = colidiu.rect.top
+                self.speedy = 0
+                self.estado = PARADO
+            elif self.speedy < 0:
+                self.rect.top = colidiu.rect.bottom
+                self.speedy = 0
+                self.estado = PARADO
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
