@@ -18,6 +18,8 @@ Um jogo de plataforma.
 
 * "Spell 4 (fire)" by Bart K. licensed Creative Commons (CC BY) versão 3.0: https://opengameart.org/content/spell-4-fire  
 
-* "Tiny Skelly: RPG Enemies Rework" by Stephen Challener (Redshrike) licensed  Creative Commons (CC BY) versão 3.0: https://opengameart.org/content/tiny-skelly-rpg-enemies-rework  
+* "Tiny Skelly: RPG Enemies Rework" by Stephen Challener (Redshrike) licensed  Creative Commons (CC BY) versão 3.0: https://opengameart.org/content/tiny-skelly-rpg-enemies-rework     
+
+* "Weird Fruits [16x16]" by KnoblePersona licensed Creative Commons (CC BY) versão 3.0: https://opengameart.org/content/weird-fruits-16x16
 
 

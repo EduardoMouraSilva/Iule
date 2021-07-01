@@ -8,6 +8,8 @@ from funcoes import movimento, sprites_no_grupo
 from const import *
 from map_mundos import mundo1
 
+
+
 mundo = mundo1
 pg.init()
 
@@ -22,6 +24,7 @@ sprites = pg.sprite.Group()
 blocks = pg.sprite.Group()
 bolas = pg.sprite.Group()
 inimigos = pg.sprite.Group()
+frutas = pg.sprite.Group()
 
 sprites, blocks = sprites_no_grupo(mundo, sprites, blocks, solo_img, Solo)
 
@@ -29,14 +32,15 @@ for i in range(6):
     a = randint(5, 18)
     b = randint(5, 30)
     inimigo = InimigoE(image_inimigo, a, b, blocks, bolas)
-    sprites.add(in
-                imigo)
+    sprites.add(inimigo)
     inimigos.add(inimigo)
 
 for i in range(3):
     fruta = Fruta(image_fruta, 5, i, blocks)
     sprites.add(fruta)
-iule = Personagem(image_personagem, 8, 2, blocks, inimigos)
+    frutas.add(fruta)
+
+iule = Personagem(image_personagem, 8, 2, blocks, inimigos, frutas)
 sprites.add(iule)
 
 # Música
@@ -62,6 +66,7 @@ ponto = vid.render(f'PONTOS: {pontos}', 1, PRETO)
 while continuar:
     contador.tick(10)
     tela.fill(AZUL_CELES)
+    
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
@@ -98,16 +103,11 @@ while continuar:
     if pontos != 0:
         pontos = int(pontos - 0.05)
         ponto = vid.render(f'PONTOS: {pontos}', 1, PRETO)
-        
 
-
-    if len(inimigos) == 0:
-        for i in range(cont):
-            a = randint(5, 18)
-            b = randint(5, 30)
-            inimigo = InimigoE(image_inimigo, a, b, blocks, bolas)
-            sprites.add(inimigo)
-            inimigos.add(inimigo)
+    if iule.colidiu_fruta:
+        energias = iule.energia
+        energia = vid.render(f'ENERGIAS: {energias}', 1, PRETO)
+        iule.colidiu_fruta = False
 
     sprites.update()
     tela.blit(fundo, (0, 0))
@@ -115,6 +115,5 @@ while continuar:
     tela.blit(energia, (LARGURA-150, 30))
     tela.blit(ponto, (LARGURA-150, 50))
     sprites.draw(tela)
-    
 
     pg.display.flip()

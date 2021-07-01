@@ -61,7 +61,7 @@ class Fireball(pg.sprite.Sprite):
 
 
 class Personagem(pg.sprite.Sprite):
-    def __init__(self, image, linha, coluna, blocks, inimigos):
+    def __init__(self, image, linha, coluna, blocks, inimigos, fruta):
         pg.sprite.Sprite.__init__(self)
         self.estado = PARADO
 
@@ -79,6 +79,7 @@ class Personagem(pg.sprite.Sprite):
 
         self.blocks = blocks
         self.inimigos = inimigos
+        self.fruta = fruta
 
         self.rect.x = coluna * BLOCO
         self.rect.bottom = linha * BLOCO
@@ -94,13 +95,21 @@ class Personagem(pg.sprite.Sprite):
 
         self.energia = 5
 
+        self.colidiu_fruta = False
+
     def update(self):
 
         colidiu_ini = pg.sprite.spritecollide(self, self.inimigos, False)
         for coli_ini in colidiu_ini:
             self.vida -= 1
             pg.sprite.Sprite.kill(coli_ini)
-        
+
+        colidiu_frutas = pg.sprite.spritecollide(self, self.fruta, False)
+        for colidiu_fruta in colidiu_frutas:
+            pg.sprite.Sprite.kill(colidiu_fruta)
+            self.energia += 1
+            self.colidiu_fruta = True
+
         if self.speedy < 50:
             self.speedy += GRAVIDADE
 
@@ -214,7 +223,6 @@ class Personagem(pg.sprite.Sprite):
 
 
 
-
 class InimigoE(pg.sprite.Sprite):
     def __init__(self, image, linha, coluna, blocks, bolas):
         pg.sprite.Sprite.__init__(self)
@@ -300,7 +308,6 @@ class InimigoE(pg.sprite.Sprite):
 
 
 
-
 class Fruta(pg.sprite.Sprite):
     def __init__(self, image, linha, coluna, blocks):
         pg.sprite.Sprite.__init__(self)
@@ -337,18 +344,3 @@ class Fruta(pg.sprite.Sprite):
                 self.rect.top = colidiu.rect.bottom
                 self.speedy = 0
                 self.estado = PARADO
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
