@@ -246,8 +246,10 @@ class InimigoE(pg.sprite.Sprite):
         self.rect.x = coluna * BLOCO
         self.rect.bottom = linha * BLOCO
 
+        self.velo = [-1, 1]
+
         self.speedy = 0
-        self.speedx = 1
+        self.speedx = self.velo[randint(0, 1)]
 
     def update(self):
         if self.speedy < 50:
@@ -344,3 +346,39 @@ class Fruta(pg.sprite.Sprite):
                 self.rect.top = colidiu.rect.bottom
                 self.speedy = 0
                 self.estado = PARADO
+
+
+
+class Portal(pg.sprite.Sprite):
+    def __init__(self, image, coluna, linha, rotar=0):
+        pg.sprite.Sprite.__init__(self)
+
+        self.rotar = rotar
+
+        imgs = image
+        self.images = []
+        lista = [1, 0, 2]
+        for e in lista:
+            for i in range(8):
+                img = imgs.subsurface((i * 64, e * 64), (64, 64))
+                if self.rotar:
+                    img = pg.transform.rotate(img, -90)
+                self.images.append(img)
+
+        self.atual = 0
+        self.image = self.images[self.atual]
+
+        self.rect = self.image.get_rect()
+        self.rect.x = coluna * 32
+        self.rect.bottom = linha * 32
+
+        self.fechar = False
+
+    def update(self):
+        self.atual += 0.5
+        if self.atual >= 16 and not self.fechar:
+            self.atual = 8
+        elif self.fechar:
+            if self.atual >= 23:
+                pg.sprite.Sprite.kill(self)
+        self.image = self.images[int(self.atual)]

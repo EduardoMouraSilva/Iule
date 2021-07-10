@@ -3,7 +3,7 @@
 import sys
 from random import randint
 import pygame as pg
-from classes import Personagem, Solo, InimigoE, Fireball, Fruta
+from classes import Personagem, Solo, InimigoE, Fireball, Fruta, Portal
 from funcoes import movimento, sprites_no_grupo
 from const import *
 from map_mundos import mundo1
@@ -12,6 +12,7 @@ from map_mundos import mundo1
 
 mundo = mundo1
 pg.init()
+
 
 # Configurações da tela.
 tela = pg.display.set_mode((LARGURA, ALTURA))
@@ -28,13 +29,6 @@ frutas = pg.sprite.Group()
 
 sprites, blocks = sprites_no_grupo(mundo, sprites, blocks, solo_img, Solo)
 
-for i in range(6):
-    a = randint(5, 18)
-    b = randint(5, 30)
-    inimigo = InimigoE(image_inimigo, a, b, blocks, bolas)
-    sprites.add(inimigo)
-    inimigos.add(inimigo)
-
 for i in range(3):
     fruta = Fruta(image_fruta, 5, i, blocks)
     sprites.add(fruta)
@@ -42,6 +36,9 @@ for i in range(3):
 
 iule = Personagem(image_personagem, 8, 2, blocks, inimigos, frutas)
 sprites.add(iule)
+
+portal = Portal(image_portal, 13, 4, 1)
+sprites.add(portal)
 
 # Música
 musica = pg.mixer.Sound('sound/level_1.mp3')
@@ -56,6 +53,7 @@ vida = vid.render('VIDAS: 3', 1, PRETO)
 vidas = 3
 cont = 10
 continuar = True
+monster_portale = 1
 
 energias = iule.energia
 energia = vid.render(f'ENERGIAS: {energias}', 1, PRETO)
@@ -108,6 +106,21 @@ while continuar:
         energias = iule.energia
         energia = vid.render(f'ENERGIAS: {energias}', 1, PRETO)
         iule.colidiu_fruta = False
+
+    if monster_portale:
+        monster_portale += 1
+        if monster_portale % 10 == 0:
+            a = int(portal.rect.x/BLOCO)
+            b = int(portal.rect.bottom/BLOCO)
+    
+            inimigo = InimigoE(image_inimigo, b, a, blocks, bolas)
+            sprites.add(inimigo)
+            inimigos.add(inimigo)
+
+        
+        if monster_portale % 30 == 0:
+            portal.fechar = True
+            monster_portale = 0
 
     sprites.update()
     tela.blit(fundo, (0, 0))
