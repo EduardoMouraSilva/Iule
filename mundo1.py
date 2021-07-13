@@ -1,6 +1,7 @@
 # Esta é a class do iule.
 
 import sys
+import os
 from random import randint
 import pygame as pg
 from classes import Personagem, Solo, InimigoE, Fireball, Fruta, Portal
@@ -29,7 +30,7 @@ frutas = pg.sprite.Group()
 
 sprites, blocks = sprites_no_grupo(mundo, sprites, blocks, solo_img, Solo)
 
-for i in range(3):
+for i in range(4):
     fruta = Fruta(image_fruta, 5, i, blocks)
     sprites.add(fruta)
     frutas.add(fruta)
@@ -116,11 +117,15 @@ while continuar:
             inimigo = InimigoE(image_inimigo, b, a, blocks, bolas)
             sprites.add(inimigo)
             inimigos.add(inimigo)
-
         
-        if monster_portale % 30 == 0:
+        if monster_portale % 10 == 0:
             portal.fechar = True
             monster_portale = 0
+
+    if not monster_portale:
+        if len(inimigos) == 0:
+            continuar = False
+            os.startfile('ganhou.py')
 
     sprites.update()
     tela.blit(fundo, (0, 0))

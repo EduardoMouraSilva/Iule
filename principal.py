@@ -73,5 +73,3 @@ while continuar:
     tela.blit(jogarb, (LARGURA/2 - posx_j/4, ALTURA/2 - posy_j/5))
     
     pygame.display.flip()
-
-print('fim')
