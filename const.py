@@ -13,6 +13,7 @@ PRETO = (0, 0, 0)
 AZUL_M = (0, 100, 200)
 AZUL_CELES = (25, 230, 255)
 RED = (255, 0, 0)
+LARANJA = (255, 165, 0)
 
 # Fontes
 font1 = 'verdana'
@@ -20,6 +21,7 @@ font2 = 'Times New Roma'
 
 pg.font.init()
 vid = pg.font.SysFont(font1, 20)
+gan = pg.font.SysFont(font1, 40)
 vida = vid.render('VIDAS: 3', 1, PRETO)
 
 # # # #
@@ -27,7 +29,6 @@ GRAVIDADE = 5
 PULO_SIZE = 30
 SPEED_X = 5
 BLOCO = 32
-
 
 # Estados do personagem
 PARADO = 0
@@ -48,4 +49,3 @@ image_portal = pg.image.load('image/portal.png')
 musica_fogo = pg.mixer.Sound('sound/foom_0.mp3')
 monstro_morre = pg.mixer.Sound('sound/deathd.mp3')
 pulo_som = pg.mixer.Sound('sound/jump_03.mp3')
-
