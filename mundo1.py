@@ -98,6 +98,7 @@ while continuar:
         vidas = iule.vida
         if vidas == 0:
             continuar = False
+            os.startfile('perdeu.py')
 
     if pontos != 0:
         pontos = int(pontos - 0.05)
@@ -118,7 +119,7 @@ while continuar:
             sprites.add(inimigo)
             inimigos.add(inimigo)
         
-        if monster_portale % 10 == 0:
+        if monster_portale % 40 == 0:
             portal.fechar = True
             monster_portale = 0
 
@@ -135,3 +136,8 @@ while continuar:
     sprites.draw(tela)
 
     pg.display.flip()
+
+
+arq = open('ponto.txt', 'w')
+arq.write(f'{pontos}')
+arq.close()

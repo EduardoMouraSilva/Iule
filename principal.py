@@ -22,6 +22,7 @@ tela.fill(BRANCO)
 pygame.font.init()
 pequen = pygame.font.SysFont(font2, 15)
 versa = pequen.render('V:1.0.0', 1, PRETO)
+nome = pequen.render('Autor: EduardoMS', 1, PRETO)
 nom_jogo = pygame.font.SysFont(font1, 60)
 nome_jogo = nom_jogo.render('IULE', 1, PRETO)
 jog = pygame.font.SysFont(font1, 20)
@@ -40,8 +41,6 @@ temporizador = pygame.time.Clock()
 pygame.mixer.init()
 abertura_m = pygame.mixer.Sound('sound/Title_Screen.mp3')
 abertura_m.play(loops=-1, fade_ms=4)
-
-fundo = pygame.image.load('image/BG.png')
 
 continuar = True
 
@@ -68,6 +67,7 @@ while continuar:
     tela.blit(fundo, (0, 0))
     
     tela.blit(versa, (10, ALTURA-10))
+    tela.blit(nome, (LARGURA-100, ALTURA-10))
     tela.blit(nome_jogo, (LARGURA/2 - 70, 50))
     tela.blit(jogar, (posx_s, posy_s))
     tela.blit(jogarb, (LARGURA/2 - posx_j/4, ALTURA/2 - posy_j/5))

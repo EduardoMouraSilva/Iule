@@ -1,4 +1,4 @@
-# A janela de ganhador
+# A janela de perdedor
 import sys
 import os
 import pygame as pg
@@ -10,7 +10,7 @@ tela = pg.display.set_mode((largura, altura))
 pg.display.set_caption('Ganhou')
 pg.display.set_icon(image_iule)
 
-ganhou = gan.render('Você ganhou!!!!!', 1, PRETO)
+ganhou = gan.render('Você perdeu!!!!!', 1, PRETO)
 
 lar = 80
 alt = 40
@@ -23,12 +23,6 @@ sair = pg.Surface((lar, alt))
 sair_text = vid.render('Sair', 1, PRETO)
 s_x = largura/1.7
 s_y = m_y
-
-arq = open('ponto.txt', 'r')
-pontos = arq.readline()
-print(pontos)
-arq.close()
-ponto = vid.render(f'Pontos: {pontos}', 1, PRETO)
 
 continuar = True
 while continuar:
@@ -58,6 +52,5 @@ while continuar:
     tela.blit(menu_text, (m_x+(lar/5), m_y+(alt/5)))
     tela.blit(sair, (s_x, s_y))
     tela.blit(sair_text, (s_x+(lar/5), s_y+(alt/5)))
-    tela.blit(ponto, (largura/2.5, altura/1.25))
 
     pg.display.flip()
